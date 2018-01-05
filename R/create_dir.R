@@ -5,10 +5,12 @@
 #' @return directory name
 #' @export
 #' @examples
-#'   s1 <- "/Users/htu"
+#'\dontrun{
+#'   s1 <- tempdir()
 #'   s2 <- "myRepo"
-#'   # create dir /Users/htu/myRepo if it does not exist
+#'   # create dir /{s1}/myRepo if it does not exist
 #'   d1 <- create_dir(s1, s2)
+#'}
 #' @author Hanming Tu
 #' @name create_dir
 # ---------------------------------------------------------------------------
