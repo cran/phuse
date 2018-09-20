@@ -25,7 +25,7 @@
 #' @importFrom utils str
 #' @importFrom yaml yaml.load
 #' @importFrom yaml yaml.load_file
-#' @importFrom RCurl url.exists
+# #' @importFrom RCurl url.exists
 #' @importFrom git2r clone
 #' @importFrom git2r init
 #' @importFrom git2r is_empty
@@ -48,6 +48,7 @@
 #  09/12/2017 (htu) - used crt_workdir for work_dir and repo_dir
 #  09/14/2017 (htu) - added upd_opt variable when fn_only is FALSE
 #  09/19/2017 (htu) - added read.csv and write.csv to import form
+#  03/04/2018 (htu) - commented out url.exists from RCurl used new function url.exists
 #
 build_script_df <- function(
   repo_url = 'https://github.com/phuse-org/phuse-scripts.git',
@@ -60,8 +61,8 @@ build_script_df <- function(
   upd_opt = NULL
 ) {
   # rm(list=ls())
-  if (is.null(repo_url))     { sprintf("%s","repo is null"); return(); }
-  if (!url.exists(repo_url)) { sprintf("%s",paste(repo_url, " does not exist!")); return(); }
+  if (is.null(repo_url))     { str(sprintf("%s","repo is null")); return(); }
+  if (!url.exists(repo_url)) { str(sprintf("%s",paste(repo_url, " does not exist!"))); return(); }
 
   # path <- tempfile(pattern="git2r-")
   # cur_dir  <- getwd()
@@ -133,3 +134,44 @@ build_script_df <- function(
   if (fn_only && file.exists(wk_fn)) { return(wk_fn); }
   return(r)
 }
+
+#' Check URL based on httr package
+#' @description Check if URL exists.
+#' @param url a URL for a remote repository and default to
+#'   'https://github.com/phuse-org/phuse-scripts.git'
+#' @param show bolean variable; default to FALSE
+#' @return TRUE or FALSE
+#' @importFrom RCurl basicTextGatherer
+#' @importFrom httr GET
+#' @export
+#' @examples
+#'   url.exists('https://github.com/phuse-org/phuse-scripts.git')
+#' @author Hanming Tu
+#' @name url.exists
+#
+# ---------------------------------------------------------------------------
+# HISTORY   MM/DD/YYYY (developer) - explanation
+#  03/04/2018 (htu) - initial creation
+#
+
+url.exists <- function (
+  url='https://github.com/phuse-org/phuse-scripts.git',
+  show=FALSE)
+{
+  # check existance using httr library
+  g = basicTextGatherer()
+  failed = FALSE
+  ans = tryCatch(GET(url), COULDNT_RESOLVE_HOST = function(x) failed <<- TRUE,
+                 error = function(x) failed <<- TRUE)
+  if (failed)
+    return(FALSE)
+  else if (grepl("Page not found", ans)) {
+    if (show) print(ans)
+    return(FALSE)
+  }
+  else{
+    if (show) print(ans)
+    return(TRUE)
+  }
+}
+

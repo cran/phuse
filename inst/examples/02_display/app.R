@@ -1,6 +1,10 @@
 library(shiny)
 library(RCurl)
 library(phuse)
+library(ggvis)
+library(diffobj)
+library(ggplot2)
+library(dplyr)
 
 #if (grepl('^(127|local)',session$clientData$url_hostname)) {
 #  dr <- resolve(system.file("examples", package = "phuse"), "02_display")
@@ -10,7 +14,7 @@ library(phuse)
  fns <- build_script_df();
 #}
 # txt <- readChar("www/links.txt",nchars=1e6)
-sel <- fns[,1]; names(sel) <- fns[,2]
+ff <- fns[,1]; names(ff) <- fns[,2]; sel <- ff[order(names(ff))]
 # h_a <- "<a href='%s' title='%s'>%s</a>"
 
 
@@ -53,6 +57,7 @@ ui <- fluidPage(
                   tabPanel("Metadata", tableOutput("mtable")),
                   tabPanel("Verify", tableOutput("verify")),
                   tabPanel("Download", tableOutput("dnload")),
+                  tabPanel("Diff", verbatimTextOutput("diff")),
                   tabPanel("Merge", tableOutput("merge")),
                   # tabPanel("Execute", verbatimTextOutput("execute"))
                   tabPanel("Execute", plotOutput("execute"))
@@ -157,6 +162,21 @@ server <- function(input, output, session) {
     }
     }, rownames = TRUE )
 
+  output$diff <- renderPrint({
+    f1 <- fn()
+    file_name <- basename(f1)
+    work_dir  <- crt_workdir(to_crt_dir = FALSE)
+    f2 <- paste(work_dir, "scripts", file_name, sep = '/')
+    if (file.exists(f2)) {
+      # diffFile(f1,f2, pager = "off")
+      diffFile(f1,f2)
+    } else {
+      msg <- c(paste0("Repo: ", f1), paste0("Loc : ", f2, " does not exists."));
+      msg
+    }
+  })
+
+
   output$execute <- renderPlot({
     # if (!is.null(input$yml_name)) {
     #  y2 <- input$yml_name
@@ -169,7 +189,7 @@ server <- function(input, output, session) {
     # }
     y2 <- gsub('_([[:alnum:]]+).([[:alnum:]]+)$','.\\1',fn())
     # str(y2)
-    commandArgs <- function() list("phuse", input$p1, input$p2, script_name=y2)
+    commandArgs <- function() list(prg="phuse", p1=input$p1, p2=input$p2, script_name=y2)
     # if (file.exists(y2) || url.exists(y2)) {
       source(y2, local = TRUE)
     # } else {
@@ -180,13 +200,19 @@ server <- function(input, output, session) {
 
   output$script_inputs <- renderUI({
     # y1 <- build_inputs(fn())
-    tagList(
-      sliderInput("p2","Number of observations:",value = 500,min = 1,max = 1000),
-      radioButtons("p1","Distribution type:",
-                   c("Normal"="rnorm","Uniform"="runif","Log-normal"="rlnorm","Exponential"="rexp"))
-    )
-    # eval(call(y1))
-    # includeScript("www/s01.R")
+    c1 <- c("Normal"="rnorm","Uniform"="runif","Log-normal"="rlnorm","Exponential"="rexp");
+    p1 <- c("p1","Distribution type:", c1);
+    c2 <- c(value = 500,min = 1,max = 1000);
+    p2 <- c("p2","Number of observations:",c2);
+    tagList(radioButtons("p1","Distribution type:", c1), sliderInput("p2","Number of observations:",value = 500,min = 1,max = 1000
+                                                                     ))
+    # tagList(
+    #  sliderInput("p2","Number of observations:",value = 500,min = 1,max = 1000),
+    #  radioButtons("p1","Distribution type:",
+    #               c("Normal"="rnorm","Uniform"="runif","Log-normal"="rlnorm","Exponential"="rexp"))
+    #)
+    ## eval(call(y1))
+    ## includeScript("www/s01.R")
   })
 }
 

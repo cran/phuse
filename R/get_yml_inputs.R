@@ -32,17 +32,24 @@ get_yml_inputs <- function(fn = NULL) {
   }
   # 3. read YML content
   cfg <- read_yml(yml_name)
-  if (! "Inputs" %in% names(cfg)) {
+  if (! ("Inputs" %in% names(cfg) || "Parameters" %in% names(cfg) )) {
     cat(paste0("ERROR: no Inputs defined in ", yml_name))
     return(r)
   }
-  k <- 0
-  for (i in 1:20) {
-    v <- paste0("p", i)
-    if (v %in% names(cfg$Inputs)) { k <- k + 1;
-    # we need to remove any R Shiny specification here
-    r[k] <- gsub('\\s+-.+','', cfg$Inputs[[v]])
-    }
+  if ("Inputs" %in% names(cfg)) {
+    r <- cfg$Inputs;
   }
+  if ("Parameters" %in% names(cfg)) {
+    r[length(r)+1] <- cfg$Parameters;
+  }
+
+  # k <- 0
+  # for (i in 1:20) {
+  #  v <- paste0("p", i)
+  #  if (v %in% names(cfg$Inputs)) { k <- k + 1;
+  #  # we need to remove any R Shiny specification here
+  #  r[k] <- gsub('\\s+-.+','', cfg$Inputs[[v]])
+  #  }
+  #}
   return(r)
 }

@@ -3,7 +3,7 @@
 #'   command line or script metadata.
 #' @param fn a file name or URL pointing to script metadata file
 #' @param input the input parameter from shiny webpage
-#' @param  cmd the cmmandArgs
+#' @param cmd the cmmandArgs
 #' @return a list of input values provided for the script
 #' @export
 #' @examples
@@ -26,37 +26,50 @@ get_inputs <- function(fn = NULL, input = NULL, cmd = NULL) {
   r <- list()
   # 2. get inputs from interactive session first
   k <- 0
-  if (exists("input")) {
+  if (exists("input") && ! is.null(input)) {
     str("Getting inputs from shiny app...")
-    for (i in 1:20) {
-      v <- paste0("p", i)
-      if (v %in% names("input")) { k <- k + 1; r[k] <- input[v] }
-    }
-    if (k > 0 ) { return(r) }
+    return(input);
+    # for (i in 1:20) { v <- paste0("p", i); if (v %in% names("input")) { k <- k + 1; r[k] <- input[v]}}
+    # if (k > 0 ) { return(r) }
   }
 
-  # 3. check inputs from command line
+  # 3. check inputs from phuse command line
   #
-  str(cmd)
-  if ("script_name" %in% names(cmd)) {
-    yml_name    <- gsub('.([[:alnum:]]+)$','_\\1.yml', cmd["script_name"])
-    r <- get_yml_inputs(yml_name)
-    return(r)
+  if (! is.null(cmd)) {
+    str(cmd)
+    if (grepl('phuse', cmd[1],  ignore.case = TRUE)) {
+      str("Getting inputs from phuse cmd ...")
+      r <- cmd[-1]
+      if ("script_name" %in% names(r)) { r$script_name <- NULL }
+      if (length(r)>0) { return(r) }
+    }
+    str("Getting inputs from cmd ...")
+    if ("script_name" %in% names(cmd)) {
+      yml_name    <- gsub('.([[:alnum:]]+)$','_\\1.yml', cmd$script_name)
+      return(get_yml_inputs(yml_name))
+    }
   }
-  str("Getting inputs from command line...")
-  if (grepl('phuse', cmd[1],  ignore.case = TRUE)) {
-    r <- cmd[-1]
+
+  # 4. check inputs from command line
+  cm <- commandArgs()
+  str("From commandArgs: ")
+  if (grepl('phuse', cm[1],  ignore.case = TRUE)) {
+    r <- cm[-1]
     if ("script_name" %in% names(r)) { r$script_name <- NULL }
     if (length(r)>0) { return(r) }
   }
+  str(cm)
+  if ("script_name" %in% names(cm) && !is.null(cm$script_name)) {
+    yml_name <- gsub('.([[:alnum:]]+)$','_\\1.yml', cm$script_name);
+    return(get_yml_inputs(yml_name))
+  }
 
-  # 4. get inputs from script metadata
+  # 5. get inputs from script metadata
   str("Getting inputs from YML file...")
   sfo <- sys.frame(1)$ofile
   if (is.null(sfo)) {
     str("ERROR: no script name is provided."); return(r)
   }
-  r <- get_yml_inputs(sfo)
-  return(r)
+  return(get_yml_inputs(sfo))
 }
 
