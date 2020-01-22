@@ -1,7 +1,7 @@
-ffba297c1fb14f9661b40d08a52445eb *DESCRIPTION
+b9f29c046ffb841d1c55191bc909baa1 *DESCRIPTION
 414a04efe111d6205b47fbfc117c3149 *LICENSE
 5ed086f0af50bf6f9d099fb6d31e17d4 *NAMESPACE
-d045ffaf91ac64848e206e002e4927c8 *NEWS.md
+819c50bcbfc6f7a740e37e74c858cdb1 *NEWS.md
 8092a2532b2bee726f95763abbffac16 *R/build_inputs.R
 837089d12885f7addcb053f52025c873 *R/build_script_df.R
 a63db6325a64f1b3df6e8dbd177e2c87 *R/chk_workdir.R
@@ -29,7 +29,7 @@ e1a3e1c76f03c88b06fbbf40e6e14e11 *R/search_github.R
 31d23457a6efacf2974b2f6056ca1767 *R/start_app.R
 f0fad4376029c58a5e0935bbd0bc149b *R/start_phuse.R
 0bb43d770c4171f98a0d37220352fcde *R/url_exists.R
-69405e4f8eaf06fec9cfdf2fe1edc7a0 *README.md
+ae3f577d518e47bf94ba6886bf673e90 *README.md
 5fa23d0a82560e8ea5f1a917b21e6d2d *inst/docs/index.html
 4db4961a5f851c6b82c75637810dfa55 *inst/examples/01_html/DESCRIPTION
 28627a9e3adccc6ae174f7f3c3e7feec *inst/examples/01_html/Readme.md
@@ -77,9 +77,10 @@ eb99ff7a0b9c779591e2227c13e28218 *inst/examples/06_dashboardjs/app.R
 e3e9351495be00e459595c3d8a47ddb7 *inst/examples/06_dashboardjs/test_dynamic_items.R
 2bb955d57167535f4f94aa9e11d44885 *inst/examples/06_dashboardjs/ts.xpt
 d4743a35f91666ce1e71220ec07c65aa *inst/examples/06_dashboardjs/write.xport2.R
-6de23e637915cd6eb2e14d80421a07d1 *inst/examples/07_genTS/app.R
+384779d1a41e6e419bee2fa4489e376a *inst/examples/07_genTS/app.R
 583484e2ac5a6cb6aade8e898ee12b52 *inst/examples/07_genTS/app_20190827.R
-10a019e7cc6c3013d3206b9c27c83236 *inst/examples/07_genTS/rsconnect/shinyapps.io/geotiger/07_genTS.dcf
+8d304b6a552a26bc5743aece151a708d *inst/examples/07_genTS/rsconnect/shinyapps.io/geotiger/07_genTS.dcf
+5a7f96780a42a7c45fe4e7e3c83851fd *inst/examples/07_genTS/www/PhUSE-Utility-feedback-v4.0.xlsx
 6de3e080167df4187eb720062ff71ac2 *inst/examples/07_genTS/www/Simplified_TS_Creation_Guide_v2.pdf
 be31f47e8aa5f0d7109304bad13ecc8f *inst/examples/07_genTS/www/XPT_Utility_Requirements.xlsx
 a8e95faf69dcd2218930190b0d0acd42 *inst/examples/07_genTS/www/install_phuse_pkg.png
@@ -104,7 +105,7 @@ d70c784e89810d613fffa546f84386f6 *man/extract_fns.Rd
 1d653367b774e190ef265df190ec3c13 *man/get_yml_inputs.Rd
 18ab8e5e9f806828c21e33e79bc893b4 *man/init_cfg.Rd
 27f7cfc90b58d027d46310e9c3d45814 *man/is_empty.Rd
-401b867fb3894fa53e4a5b6eaa221a6c *man/merge_lists.Rd
+eb6cef91ceae400b152fe10166f7f1e5 *man/merge_lists.Rd
 9c7572293e15c3f1b96b967b2b97730d *man/read_yml.Rd
 15f31ae50dc2fc9a16569782aa86e4a7 *man/resolve.Rd
 cd0ca5121f36afe655d45904b4bf213c *man/run_example.Rd

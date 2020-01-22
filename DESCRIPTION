@@ -1,7 +1,7 @@
 Package: phuse
 Type: Package
 Title: Web Application Framework for 'PhUSE' Scripts
-Version: 0.2.0
+Version: 0.2.2
 Author: Hanming Tu [aut, cre]
 Authors@R: c(
   person("Hanming", "Tu", email = "hanming.tu@gmail.com",role = c("aut", "cre"))
@@ -20,6 +20,6 @@ Suggests: testthat
 Imports: yaml, shiny, RCurl, git2r, rlist, httr, stringr, jsonlite,
         SASxport
 NeedsCompilation: no
-Packaged: 2019-10-17 14:55:20 UTC; htu
+Packaged: 2020-01-22 01:36:42 UTC; htu
 Repository: CRAN
-Date/Publication: 2019-10-17 22:30:02 UTC
+Date/Publication: 2020-01-22 11:20:02 UTC
